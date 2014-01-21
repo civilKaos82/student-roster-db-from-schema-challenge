@@ -2,15 +2,18 @@
  
 ##Learning Competencies 
 
+* Use sqlite gem to create a database using Ruby commands
+* Use sqlite gem to perform CRUD operations on tables in a database using Ruby commands
+
 ##Summary 
 
  It's time to start building the databases from all those schema we designed, and we'll use Ruby to do it.  
 
-## Objectives
+##Releases
 
-### Create the student database in Ruby
+###Release 0 : Create the student database in Ruby
 
-Revisit the [Student Schema]( http://socrates.devbootcamp.com/challenges/51)  and write a ruby program that creates the database from this schema.  
+Revisit the [Student Schema]( http://socrates.devbootcamp.com/challenges/51)  and write a ruby program that creates the database from this schema in the source file `student_roster.rb`.  
 
 First, include the [Ruby gem for SQLite](https://github.com/luislavena/sqlite3-ruby).  Install it by running:
 
@@ -65,7 +68,7 @@ Verify your database is working properly.
 
 Load your `setup.rb` file in irb and run the `StudentDB.setup`  and `StudentDB.seed` methods. Then open up the Sqlite console with the `students.db` database and make sure you can run `SELECT` on these records. 
 
-### Create the Student Class 
+###Release 1 :  Create the Student Class 
 
 There are some clear parallels with the Ruby objects and the Database tables. 
 
@@ -110,7 +113,7 @@ student.save</pre>
 <b>NOTE:</b> In the SQL above, two versions of `WHERE` clauses are given. In the second version, a SQL placeholder `?` is used.  This format helps avoid SQL injection attacks.  You can see more examples of [placeholders in WHERE clauses](http://sqlite-ruby.rubyforge.org/sqlite3/faq.html#538670816) and [place holders in INSERT clauses](http://sqlite-ruby.rubyforge.org/sqlite3/faq.html#538670616).
 
 
-### Add methods to the Student Class to execute SQL commands
+###Release 2 : Add methods to the Student Class to execute SQL commands
 
 Then write Ruby code that allows you to complete the following tasks:
 
@@ -120,17 +123,14 @@ Then write Ruby code that allows you to complete the following tasks:
 - Show a list of all students
 - Show a list of students with a particular first_name 
 - Show a list of students with any particular attribute
-
-*Use the table above as a guide for your methods.  What can you infer about each method's declaration and structure?*
-
-**Extra Credit:**
-
 - List which students have a birthday this month
 - List students by birthday 
 
-##Releases
-###Release 0 
+*Use the table above as a guide for your methods.  What can you infer about each method's declaration and structure?*
 
-##Optimize Your Learning 
+<!-- ##Optimize Your Learning  -->
 
 ##Resources
+
+* [Ruby gem for SQLite](https://github.com/luislavena/sqlite3-ruby)
+* [SQLite 3](http://sqlite-ruby.rubyforge.org/sqlite3)
