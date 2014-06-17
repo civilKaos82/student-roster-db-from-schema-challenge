@@ -1,19 +1,19 @@
-# Student Roster Db From Schema 
- 
-##Learning Competencies 
+# Student Roster Db From Schema
+
+##Learning Competencies
 
 * Use sqlite gem to create a database using Ruby commands
 * Use sqlite gem to perform CRUD operations on tables in a database using Ruby commands
 
-##Summary 
+##Summary
 
- It's time to start building the databases from all those schema we designed, and we'll use Ruby to do it.  
+ It's time to start building the databases from all those schema we designed, and we'll use Ruby to do it.
 
 ##Releases
 
 ###Release 0 : Create the student database in Ruby
 
-Revisit the [Student Roster Challenge](../../../database-drill-student-roster-challenge) and write a ruby program that creates the database from this schema in the source file `student_roster.rb`.  
+Revisit the [Student Roster Challenge](../../../database-drill-student-roster-challenge) and write a ruby program that creates the database from this schema in the source file `student_roster.rb`.
 
 First, include the [Ruby gem for SQLite](https://github.com/luislavena/sqlite3-ruby).  Install it by running:
 
@@ -21,14 +21,16 @@ First, include the [Ruby gem for SQLite](https://github.com/luislavena/sqlite3-r
 gem install sqlite3
 ```
 
-Next, create a file called `setup.rb`  that you will only run once to create your database.  Use the code below as a template to get you started. 
+Next, create a file called `setup.rb`  that you will only run once to create your database.  Use the code below as a template to get you started.
 
 ```ruby
 require 'sqlite3'
 
-# If you want to overwrite your database you will need 
+# If you want to overwrite your database you will need
 # to delete it before running this file
+system("rm students.db")
 $db = SQLite3::Database.new "students.db"
+$db.results_as_hash = true
 
 module StudentDB
   def self.setup
@@ -38,9 +40,9 @@ module StudentDB
           id INTEGER PRIMARY KEY AUTOINCREMENT,
           first_name VARCHAR(64) NOT NULL,
           last_name VARCHAR(64) NOT NULL,
-          
+
           -- add the additional attributes here!
-          
+
           created_at DATETIME NOT NULL,
           updated_at DATETIME NOT NULL
         );
@@ -52,10 +54,10 @@ module StudentDB
     # Add a few records to your database when you start
     $db.execute(
       <<-SQL
-        INSERT INTO students 
-          (first_name, last_name, created_at, updated_at)
+        INSERT INTO students
+          (first_name, last_name, birthday, created_at, updated_at)
         VALUES
-          ('Brick','Thornton',DATETIME('now'), DATETIME('now'));
+          ('Brick','Thornton', DATETIME('1971-07-04'), DATETIME('now'), DATETIME('now'));
 
         -- Create two more students who are at least as cool as this one.
       SQL
@@ -64,13 +66,23 @@ module StudentDB
 end
 ```
 
-Verify your database is working properly. 
+Add the following records to your seed method:
 
-Load your `setup.rb` file in irb and run the `StudentDB.setup`  and `StudentDB.seed` methods. Then open up the Sqlite console with the `students.db` database and make sure you can run `SELECT` on these records. 
+| Name         | Birthday   |
+| ------------ | ---------- |
+| Alyssa Diaz  | 1977-07-04 |
+| Matt Jones   | 1978-07-04 |
+| Matt Baker   | 1984-07-04 |
+| Lauren Scott | 1990-05-04 |
+| Dave Hoover  | 1974-07-04 |
 
-###Release 1 :  Create the Student Class 
+Verify your database is working properly.
 
-There are some clear parallels with the Ruby objects and the Database tables. 
+Load your `setup.rb` file in irb and run the `StudentDB.setup`  and `StudentDB.seed` methods. Then open up the Sqlite console with the `students.db` database and make sure you can run `SELECT` on these records.
+
+###Release 1 :  Create the Student Class
+
+There are some clear parallels with the Ruby objects and the Database tables.
 
 <table class="table table-striped table-bordered">
   <tr>
@@ -117,15 +129,15 @@ student.save</pre>
 
 Then write Ruby code that allows you to complete the following tasks:
 
-1. Add a student (note that this task is made up of 2 different methods as shown in the table above)
+- Add a student
 - Delete a student
 - Show a list of all students
-- Show a list of students with a particular first_name 
+- Show a list of students with a particular first_name
 - Show a list of students with any particular attribute
 - List which students have a birthday this month
-- List students by birthday 
+- List students by birthday
 
-*Use the table above as a guide for your methods.  What can you infer about each method's declaration and structure?*
+*Specs have been provided for you as a guide to writing these methods in `student_spec.rb`*
 
 <!-- ##Optimize Your Learning  -->
 
