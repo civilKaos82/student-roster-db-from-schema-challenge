@@ -7,7 +7,7 @@
 
 ##Summary
 
- It's time to start building the databases from all those schema we designed, and we'll use Ruby to do it.
+It's time to start building the databases from all those schema we designed, and we'll use Ruby to do it.
 
 ##Releases
 
@@ -21,50 +21,7 @@ First, include the [Ruby gem for SQLite](https://github.com/luislavena/sqlite3-r
 gem install sqlite3
 ```
 
-Next, create a file called `setup.rb`  that you will only run once to create your database.  Use the code below as a template to get you started.
-
-```ruby
-require 'sqlite3'
-
-# If you want to overwrite your database you will need
-# to delete it before running this file
-system("rm students.db")
-$db = SQLite3::Database.new "students.db"
-$db.results_as_hash = true
-
-module StudentDB
-  def self.setup
-    $db.execute(
-      <<-SQL
-        CREATE TABLE students (
-          id INTEGER PRIMARY KEY AUTOINCREMENT,
-          first_name VARCHAR(64) NOT NULL,
-          last_name VARCHAR(64) NOT NULL,
-
-          -- add the additional attributes here!
-
-          created_at DATETIME NOT NULL,
-          updated_at DATETIME NOT NULL
-        );
-      SQL
-    )
-  end
-
-  def self.seed
-    # Add a few records to your database when you start
-    $db.execute(
-      <<-SQL
-        INSERT INTO students
-          (first_name, last_name, birthday, created_at, updated_at)
-        VALUES
-          ('Brick','Thornton', DATETIME('1971-07-04'), DATETIME('now'), DATETIME('now'));
-
-        -- Create two more students who are at least as cool as this one.
-      SQL
-    )
-  end
-end
-```
+Next, look at `student_db_helper.rb`. This provides tools to create and seed the database. It's not complete, you'll need to update it to accomplish your task.
 
 Add the following records to your seed method:
 
@@ -78,7 +35,7 @@ Add the following records to your seed method:
 
 Verify your database is working properly.
 
-Load your `setup.rb` file in irb and run the `StudentDB.setup`  and `StudentDB.seed` methods. Then open up the Sqlite console with the `students.db` database and make sure you can run `SELECT` on these records.
+Load `student_db_helper.rb` file in irb and run the `StudentDBHelper.setup`  and `StudentDBHelper.seed` methods. Then open up the Sqlite console with the `students.db` database and make sure you can run `SELECT` on these records.
 
 ###Release 1 :  Create the Student Class
 
