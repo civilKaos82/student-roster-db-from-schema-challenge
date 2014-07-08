@@ -89,12 +89,4 @@ describe Student do
       expect(Student.all_by_birthday.first.first_name).to eq("Brick")
     end
   end
-
-  describe "#find_by_current_month_birthday" do
-    it "finds students with a birthday this month" do
-      students = Student.find_by_current_month_birthday
-      expect(students.size).to eq(1)
-      expect(students.first.first_name).to eq("Lauren")
-    end
-  end
 end
