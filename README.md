@@ -117,8 +117,7 @@ student.save</pre>
 
 Then write Ruby code that allows you to complete the following tasks:
 
-
-1. Add a student
+1. Add a student (note that this task is made up of 2 different methods as shown in the table above)
 - Delete a student
 - Show a list of all students
 - Show a list of students with a particular first_name 
