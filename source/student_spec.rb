@@ -11,51 +11,51 @@ describe Student do
     $db.rollback
   end
 
-  let(:mikee_data) { {"first_name" => "Mikee",
-                        "last_name" => "Pourhadi",
-                        "gender" => "Male",
-                        "birthday" => "1985-10-25",
-                        "email" => "mikeepourhadi@gmail.com",
-                        "phone" => "630-363-6640"} }
+  let(:mikee_data) do
+    { "first_name" => "Mikee",
+      "last_name"  => "Pourhadi",
+      "gender"     => "Male",
+      "birthday"   => "1985-10-25",
+      "email"      => "mikeepourhadi@gmail.com",
+      "phone"      => "630-363-6640" }
+  end
 
-  let(:mikee_2_data) { {"first_name" => "Mikee",
-                        "last_name" => "Baker",
-                        "gender" => "Male",
-                        "birthday" => "1987-11-05",
-                        "email" => "matt@devbootcamp.com",
-                        "phone" => "503-333-7740"} }
+  let(:mikee_2_data) do
+    { "first_name" => "Mikee",
+      "last_name"  => "Baker",
+      "gender"     => "Male",
+      "birthday"   => "1987-11-05",
+      "email"      => "matt@devbootcamp.com",
+      "phone"      => "503-333-7740" }
+  end
+
 
   describe "#save" do
-
-    describe "on a new record" do
-
+    context "record not in the database" do
 
       let(:student) { Student.new(mikee_data) }
 
-      it "updates the id after saving" do
-        expect(student.id).to be_nil
-        student.save
-        expect(student.id).not_to be_nil
+      it "saves to the database" do
+        expect { student.save }.to change { $db.execute("SELECT * FROM students WHERE first_name = ?", 'Mikee').count }.from(0).to(1)
       end
 
-      it "saves to the database" do
-        student.save
-        results = $db.execute("SELECT * FROM students WHERE first_name = 'Mikee'")
-        expect(results.length).to eq(1)
+      it "assign the id created by the database to the object" do
+        expect { student.save }.to change { student.id }.from(nil).to( $db.last_insert_row_id )
       end
     end
 
-    describe "on an existing record" do
-      before :each do
-        @student = Student.new(mikee_data)
-        @student.save
+    context "record exists in the database" do
+      let(:student) do
+        mikee = Student.new(mikee_data)
+        mikee.save
+        mikee
       end
 
-      it "updates the other columns" do
-        expect(@student.first_name).to eq("Mikee")
-        @student.first_name = "Michael"
-        @student.save
-        expect(@student.first_name).to eq("Michael")
+      it "updates the database columns with the attributes of the object" do
+        # Change the first_name attribute in the Ruby object
+        student.first_name = "Michael"
+
+        expect { student.save }.to change { $db.execute("select * from students where first_name = ?", 'Michael').count }.from(0).to(1)
       end
     end
   end
