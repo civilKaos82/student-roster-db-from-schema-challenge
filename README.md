@@ -101,4 +101,4 @@ Then write Ruby code that allows you to complete the following tasks:
 ##Resources
 
 * [Ruby gem for SQLite](https://github.com/luislavena/sqlite3-ruby)
-* [SQLite 3](http://sqlite-ruby.rubyforge.org/sqlite3)
+* [SQLite 3](http://www.sqlite.org/)
