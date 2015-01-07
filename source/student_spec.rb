@@ -45,7 +45,7 @@ describe Student do
     { "first_name" => "Susie",
       "last_name"  => "Smith",
       "gender"     => "Female",
-      "birthday"   => "1987-11-05",
+      "birthday"   => "1989-11-05",
       "email"      => "matt@devbootcamp.com",
       "phone"      => "503-333-7740" }
   end
@@ -158,12 +158,27 @@ describe Student do
     end
   end
 
-  describe ".all_by_birthday" do
-    it "orders students by birthday oldest to youngest" do
-      students_ordered_by_birthday = [mikee, other_mikee].sort_by(&:birthday)
+  describe ".find_all_by_birthday" do
+    before(:each) do
+      @saved_students = [mikee, not_mikee, other_mikee]
+    end
 
-      expect(Student.all_by_birthday[0].last_name).to eq students_ordered_by_birthday[0].last_name
-      expect(Student.all_by_birthday[1].last_name).to eq students_ordered_by_birthday[1].last_name
+    it "returns a collection of student objects" do
+      Student.all_by_birthday.each do |student|
+        expect(student).to be_an_instance_of Student
+      end
+    end
+
+    it "retrieves all student records" do
+      expect(Student.all_by_birthday.count).to eq $db.execute("SELECT * FROM students").count
+    end
+
+    it "orders students by birthday oldest to youngest" do
+      oldest_student = @saved_students.min_by(&:birthday)
+      youngest_student = @saved_students.max_by(&:birthday)
+
+      expect(Student.all_by_birthday.first.last_name).to eq oldest_student.last_name
+      expect(Student.all_by_birthday.last.last_name).to eq youngest_student.last_name
     end
   end
 end
