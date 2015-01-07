@@ -140,10 +140,21 @@ describe Student do
   end
 
   describe ".where" do
+    before(:each) do
+      saved_students = [mikee, other_mikee, not_mikee]
+    end
+
     it "retrieves students by any attribute" do
-      students = Student.where("last_name = ?", mikee.last_name)
-      expect(students.size).to eq(1)
-      expect(students.first).to be_a(Student)
+      expected_students = [mikee, other_mikee]
+      found_students = Student.where("first_name = ?", mikee.first_name)
+
+      expect(found_students.count).to eq expected_students.count
+    end
+
+    it "returns a collection of student objects" do
+      Student.where("first_name = ?", mikee.first_name).each do |student|
+        expect(student).to be_an_instance_of Student
+      end
     end
   end
 
