@@ -66,14 +66,22 @@ describe Student do
   end
 
   describe ".find" do
-    it "returns a student" do
-      found_student = Student.find(mikee.id)
-      expect(found_student).to be_a Student
+    context "when a record with the given id is in the database" do
+      it "returns a student" do
+        found_student = Student.find(mikee.id)
+        expect(found_student).to be_a Student
+      end
+
+      it "allows me to find a unique student by id" do
+        found_student = Student.find(mikee.id)
+        expect(found_student.first_name).to eq mikee.first_name
+      end
     end
 
-    it "allows me to find a unique student by id" do
-      found_student = Student.find(mikee.id)
-      expect(found_student.first_name).to eq mikee.first_name
+    context "when no record with the given id is in the database" do
+      it "returns nothing" do
+        expect(Student.find 0).to be_nil
+      end
     end
   end
 
