@@ -60,7 +60,7 @@ describe Student do
     end
   end
 
-  describe "#find" do
+  describe ".find" do
     before :each do
       @student = Student.new(mikee_data)
       @student.save
@@ -88,7 +88,7 @@ describe Student do
     end
   end
 
-  describe "#all" do
+  describe ".all" do
     before :each do
       @student = Student.new(mikee_data)
       @student.save
@@ -102,7 +102,7 @@ describe Student do
 
   end
 
-  describe "#find_by_first_name" do
+  describe ".find_by_first_name" do
     before :each do
       Student.new(mikee_data).save
       Student.new(mikee_2_data).save
@@ -116,7 +116,7 @@ describe Student do
     end
   end
 
-  describe "#where" do
+  describe ".where" do
     before :each do
       Student.new(mikee_data).save
     end
@@ -128,7 +128,7 @@ describe Student do
     end
   end
 
-  describe "#all_by_birthday" do
+  describe ".all_by_birthday" do
     before :each do
       Student.new(mikee_data).save
       Student.new(mikee_2_data).save
