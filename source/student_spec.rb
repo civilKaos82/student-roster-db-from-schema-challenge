@@ -41,6 +41,21 @@ describe Student do
     student
   end
 
+  let(:not_mikee_data) do
+    { "first_name" => "Susie",
+      "last_name"  => "Smith",
+      "gender"     => "Female",
+      "birthday"   => "1987-11-05",
+      "email"      => "matt@devbootcamp.com",
+      "phone"      => "503-333-7740" }
+  end
+
+  let(:not_mikee) do
+    student = Student.new(not_mikee_data)
+    student.save
+    student
+  end
+
 
   describe "#save" do
     context "record not in the database" do
@@ -111,13 +126,16 @@ describe Student do
   end
 
   describe ".find_by_first_name" do
-    it "retrieves students based on first name" do
-      expected_students = [mikee, other_mikee]
-      found_students = Student.find_by_first_name("Mikee")
+    before(:each) do
+      saved_students = [mikee, not_mikee]
+    end
 
-      expect(found_students.size).to eq expected_students.size
-      expect(found_students.first).to be_a Student
-      expect(found_students[1].last_name).to eq "Baker"
+    it "returns a student" do
+      expect(Student.find_by_first_name 'Mikee').to be_a Student
+    end
+
+    it "retrieves a student with the desired first name" do
+      expect(Student.find_by_first_name('Mikee').first_name).to eq "Mikee"
     end
   end
 
