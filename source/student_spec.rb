@@ -86,12 +86,11 @@ describe Student do
   end
 
   describe "#delete" do
-    it "deletes a student" do
-      found_student = Student.find(mikee.id)
-      expect(found_student).to be_a Student
+    it "removes the database record associated with the student from the database" do
+      select_mikees = Proc.new { $db.execute("SELECT * FROM students WHERE first_name = ?", mikee.first_name) }
 
-      found_student.delete
-      expect(Student.find(mikee.id)).to be(nil)
+      expect { mikee.delete }.to change { select_mikees.call.count }.from(1).to(0)
+
     end
   end
 
