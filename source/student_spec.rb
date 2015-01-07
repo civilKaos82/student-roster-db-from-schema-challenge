@@ -66,10 +66,14 @@ describe Student do
   end
 
   describe ".find" do
-    it "allows me to find a unique student" do
+    it "returns a student" do
       found_student = Student.find(mikee.id)
       expect(found_student).to be_a Student
-      expect(found_student.first_name).to eq("Mikee")
+    end
+
+    it "allows me to find a unique student by id" do
+      found_student = Student.find(mikee.id)
+      expect(found_student.first_name).to eq mikee.first_name
     end
   end
 
