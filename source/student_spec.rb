@@ -95,14 +95,19 @@ describe Student do
   end
 
   describe ".all" do
-    it "retrieves all students at once" do
+    before(:each) do
       saved_students = [mikee, other_mikee]
-
-      student_count = $db.execute("SELECT * FROM students").length
-      expect(Student.all.size).to eq(student_count)
-      expect(Student.all.first).to be_a(Student)
     end
 
+    it "retrieves all students at once" do
+      expect(Student.all.count).to eq $db.execute("SELECT * FROM students").count
+    end
+
+    it "returns a collection of student objects" do
+      Student.all.each do |student|
+        expect(student).to be_an_instance_of Student
+      end
+    end
   end
 
   describe ".find_by_first_name" do
