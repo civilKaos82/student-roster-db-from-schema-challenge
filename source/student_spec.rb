@@ -20,7 +20,7 @@ describe Student do
       "phone"      => "630-363-6640" }
   end
 
-  let(:student) do
+  let(:mikee) do
     mikee = Student.new(mikee_data)
     mikee.save
     mikee
@@ -35,7 +35,7 @@ describe Student do
       "phone"      => "503-333-7740" }
   end
 
-  let(:other_student) do
+  let(:other_mikee) do
     student = Student.new(mikee_2_data)
     student.save
     student
@@ -58,16 +58,16 @@ describe Student do
     context "record exists in the database" do
       it "updates the database columns with the attributes of the object" do
         # Change the first_name attribute in the Ruby object
-        student.first_name = "Michael"
+        mikee.first_name = "Michael"
 
-        expect { student.save }.to change { $db.execute("select * from students where first_name = ?", 'Michael').count }.from(0).to(1)
+        expect { mikee.save }.to change { $db.execute("select * from students where first_name = ?", 'Michael').count }.from(0).to(1)
       end
     end
   end
 
   describe ".find" do
     it "allows me to find a unique student" do
-      found_student = Student.find(student.id)
+      found_student = Student.find(mikee.id)
       expect(found_student).to be_a Student
       expect(found_student.first_name).to eq("Mikee")
     end
@@ -75,17 +75,17 @@ describe Student do
 
   describe "#delete" do
     it "deletes a student" do
-      found_student = Student.find(student.id)
+      found_student = Student.find(mikee.id)
       expect(found_student).to be_a Student
 
       found_student.delete
-      expect(Student.find(student.id)).to be(nil)
+      expect(Student.find(mikee.id)).to be(nil)
     end
   end
 
   describe ".all" do
     it "retrieves all students at once" do
-      saved_students = [student, other_student]
+      saved_students = [mikee, other_mikee]
 
       student_count = $db.execute("SELECT * FROM students").length
       expect(Student.all.size).to eq(student_count)
@@ -96,7 +96,7 @@ describe Student do
 
   describe ".find_by_first_name" do
     it "retrieves students based on first name" do
-      expected_students = [student, other_student]
+      expected_students = [mikee, other_mikee]
       found_students = Student.find_by_first_name("Mikee")
 
       expect(found_students.size).to eq expected_students.size
@@ -107,7 +107,7 @@ describe Student do
 
   describe ".where" do
     it "retrieves students by any attribute" do
-      students = Student.where("last_name = ?", student.last_name)
+      students = Student.where("last_name = ?", mikee.last_name)
       expect(students.size).to eq(1)
       expect(students.first).to be_a(Student)
     end
@@ -115,7 +115,7 @@ describe Student do
 
   describe ".all_by_birthday" do
     it "orders students by birthday oldest to youngest" do
-      students_ordered_by_birthday = [student, other_student].sort_by(&:birthday)
+      students_ordered_by_birthday = [mikee, other_mikee].sort_by(&:birthday)
 
       expect(Student.all_by_birthday[0].last_name).to eq students_ordered_by_birthday[0].last_name
       expect(Student.all_by_birthday[1].last_name).to eq students_ordered_by_birthday[1].last_name
