@@ -3,39 +3,45 @@ require_relative 'student_db'
 
 module StudentDBHelper
   def self.setup
-    #Drop the table if it exists, because we're re-creating it
+    # Drop the table if it exists ... we'll recreate it.
     $db.execute("DROP TABLE IF EXISTS students")
 
-    #Note: this table structure doesn't include all the fields you'll need...
+    # Create the students table.
     $db.execute(
-      <<-SQL
+      <<-QUERY_STRING
         CREATE TABLE students (
           id INTEGER PRIMARY KEY AUTOINCREMENT,
           first_name VARCHAR(64) NOT NULL,
           last_name VARCHAR(64) NOT NULL,
-
-          -- add the additional attributes here!
-
+          birthday DATETIME NOT NULL,
+          gender VARCHAR(32),
+          phone VARCHAR(32),
+          email VARCHAR(64),
           created_at DATETIME NOT NULL,
           updated_at DATETIME NOT NULL
         );
-      SQL
+      QUERY_STRING
     )
   end
 
   def self.seed
-    #Delete existing rows before seed
+    #Delete existing records from the students table before inserting these new records; we'll start from scratch.
     $db.execute("DELETE FROM students")
 
-    # Add a few records to your database when you start.
-    # You'll need more than this one row, so read the README carefully.
+    # Insert records.
     $db.execute(
-      <<-SQL
+      <<-QUERY_STRING
         INSERT INTO students
           (first_name, last_name, birthday, created_at, updated_at)
         VALUES
-          ('Brick','Thornton', DATETIME('1971-07-04'), DATETIME('now'), DATETIME('now'));
-      SQL
+          ('Brick','Thornton', DATETIME('1971-07-04'), DATETIME('now'), DATETIME('now')),
+          ('Alyssa','Diaz', DATETIME('1977-07-04'), DATETIME('now'), DATETIME('now')),
+          ('Matt','Jones', DATETIME('1978-07-04'), DATETIME('now'), DATETIME('now')),
+          ('Matt','Baker', DATETIME('1984-07-04'), DATETIME('now'), DATETIME('now')),
+          ('Lauren','Scott', DATETIME('1990-05-04'), DATETIME('now'), DATETIME('now')),
+          ('Dave','Hoover', DATETIME('1974-07-04'), DATETIME('now'), DATETIME('now'));
+      QUERY_STRING
     )
+
   end
 end
