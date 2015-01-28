@@ -65,8 +65,15 @@ describe Student do
         expect { unsaved_student.save }.to change { $db.execute("SELECT * FROM students WHERE first_name = ?", 'Mikee').count }.from(0).to(1)
       end
 
-      it "assign the id created by the database to the object" do
-        expect { unsaved_student.save }.to change { unsaved_student.id }.from(nil).to( $db.last_insert_row_id )
+      describe "assigning the id" do
+        it "has no id before being saved" do
+          expect(unsaved_student.id).to be_nil
+        end
+
+        it "is assigned an id after save" do
+          unsaved_student.save
+          expect(unsaved_student.id).to eq $db.last_insert_row_id
+        end
       end
     end
 
