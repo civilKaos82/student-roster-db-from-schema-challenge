@@ -72,10 +72,17 @@ describe Student do
 
     context "record exists in the database" do
       it "updates the database columns with the attributes of the object" do
+        # Get the id of the mikee Ruby object
+        mikee_original_id = mikee.id
+
         # Change the first_name attribute in the Ruby object
         mikee.first_name = "Michael"
 
-        expect { mikee.save }.to change { $db.execute("select * from students where first_name = ?", 'Michael').count }.from(0).to(1)
+        expect { mikee.save }.to change { $db.execute("select * from students where id = ? AND first_name = ?", mikee_original_id, "Michael").count }.from(0).to(1)
+      end
+
+      it "does not alter the id" do
+        expect { mikee.save }.to_not change { mikee.id }
       end
     end
   end
