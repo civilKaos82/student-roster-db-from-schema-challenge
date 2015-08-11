@@ -13,7 +13,7 @@
 
 ###Release 0 : Create the student database in Ruby
 
-Revisit the [Student Schema]( http://socrates.devbootcamp.com/challenges/51)  and write a ruby program that creates the database from this schema in the source file `student_roster.rb`.  
+Revisit the [Student Roster Challenge](../../../database-drill-student-roster-challenge) and write a ruby program that creates the database from this schema in the source file `student_roster.rb`.  
 
 First, include the [Ruby gem for SQLite](https://github.com/luislavena/sqlite3-ruby).  Install it by running:
 
