@@ -2,7 +2,7 @@ require 'sqlite3'
 require_relative 'config'
 
 module StudentDBSetup
-  def self.setup
+  def self.create_students_table
     # Drop the table if it exists ... we'll recreate it.
     $db.execute("DROP TABLE IF EXISTS students")
 
