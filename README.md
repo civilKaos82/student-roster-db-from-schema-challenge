@@ -80,12 +80,12 @@ As a first step, ensure that the [Ruby gem for SQLite](https://github.com/luisla
 gem install sqlite3
 ```
 
-Next, we're going to create the `students` table in the database and then put some data in the table. To begin, look at the file `student_db_helper.rb`. This file provides a module with two methods:  `.setup` to create the table and `.seed` to insert the data.
+Next, we're going to create the `students` table in the database and then put some data in the table. To begin, look at the file `student_db_setup.rb`. This file provides a module with two methods:  `.setup` to create the table and `.seed` to insert the data.
 
-We are going to create and seed the `students` table by calling these methods on the `StudentDBHelper` module.  We'll do so by loading the `student_db_helper.rb` file ir irb.  From the command line, navigate to this challenge's `source` folder.  Then, open irb and run ...
+We are going to create and seed the `students` table by calling these methods on the `StudentDBHelper` module.  We'll do so by loading the `student_db_setup.rb` file ir irb.  From the command line, navigate to this challenge's `source` folder.  Then, open irb and run ...
 
 ```bash
-:001 > load 'student_db_helper.rb'
+:001 > load 'student_db_setup.rb'
 ```
 
 Calling `load` and passing it the name of a file will load the code from the specificed file into the environment.  As a result, the `StudentDBHelper` module will be availble to us in this irb session.
