@@ -1,5 +1,5 @@
 require 'sqlite3'
-require_relative 'student_db'
+require_relative 'config'
 
 module StudentDBHelper
   def self.setup

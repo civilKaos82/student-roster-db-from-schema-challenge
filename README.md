@@ -63,7 +63,7 @@ $db.results_as_hash = true
 ```
 *Figure 3*.  Code to configure the database connection
 
-The file `student_db.rb` establishes a connection with our database on configures how records are returned (see Figure 3).  We're creating a global variable, `$db` and assigning in the value of a `SQLite3::Database` object; the argument we pass to `.new` is the name of the database file we want to connect to.
+The file `config.rb` establishes a connection with our database on configures how records are returned (see Figure 3).  We're creating a global variable, `$db` and assigning in the value of a `SQLite3::Database` object; the argument we pass to `.new` is the name of the database file we want to connect to.
 
 Our interactions with the database will be handled by this database object.  For example, when our `Student` class needs to retrieve data from the database, the class will tell this database object to run a specific SQL query and then work with the results.
 
