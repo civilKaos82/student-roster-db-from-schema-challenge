@@ -65,7 +65,7 @@ Our interactions with the database will be handled by this database object.  For
 ### Pre-release: Create and Setup the Database
 Before we can write a class that interacts with a database, we need to create the database and create in it a table to store data.  To that end we're going to create a database with a `students` table and then insert some data into the table.  All of the code to do this is provided in the file `student_db_setup.rb`.  We'll load the file in IRB and then execute the provided code.
 
-```bash
+```
 gem install sqlite3
 ```
 *Figure 2*. Installing the SQLite3 gem.
@@ -74,7 +74,7 @@ As a first step, let's ensure that the [Ruby gem for SQLite](https://github.com/
 
 With SQLite3 installed, we're now going to create the `students` table in the database and then put some data in the table (i.e., seed it). To begin, look at the file `student_db_setup.rb`. This file provides a module with two methods:  `.create_students_table` to create the table and `.seed` to insert the data.  We are going to create and seed the `students` table by calling these methods on the `StudentDBSetup` module.
 
-```bash
+```
 $ irb
 :001 > load 'student_db_setup.rb'
 :002 > StudentDBSetup.create_students_table
