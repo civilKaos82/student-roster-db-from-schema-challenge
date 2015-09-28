@@ -82,26 +82,26 @@ gem install sqlite3
 
 Next, we're going to create the `students` table in the database and then put some data in the table. To begin, look at the file `student_db_setup.rb`. This file provides a module with two methods:  `.setup` to create the table and `.seed` to insert the data.
 
-We are going to create and seed the `students` table by calling these methods on the `StudentDBHelper` module.  We'll do so by loading the `student_db_setup.rb` file ir irb.  From the command line, navigate to this challenge's `source` folder.  Then, open irb and run ...
+We are going to create and seed the `students` table by calling these methods on the `StudentDBSetup` module.  We'll do so by loading the `student_db_setup.rb` file ir irb.  From the command line, navigate to this challenge's `source` folder.  Then, open irb and run ...
 
 ```bash
 :001 > load 'student_db_setup.rb'
 ```
 
-Calling `load` and passing it the name of a file will load the code from the specificed file into the environment.  As a result, the `StudentDBHelper` module will be availble to us in this irb session.
+Calling `load` and passing it the name of a file will load the code from the specificed file into the environment.  As a result, the `StudentDBSetup` module will be availble to us in this irb session.
 
-We'll continue by creating the `students` table.  Look at the method `StudentDBHelper.setup`.  We can see that the `StudentDBHelper` module delegates to `$db`, our `SQLite3::Database` object, any tasks that relate to communicating with the database.  It does so using the [`Database#execute`](http://www.rubydoc.info/gems/sqlite3/1.3.10/SQLite3/Database#execute-instance_method) method, passing a string of SQL to be run.
+We'll continue by creating the `students` table.  Look at the method `StudentDBSetup.setup`.  We can see that the `StudentDBSetup` module delegates to `$db`, our `SQLite3::Database` object, any tasks that relate to communicating with the database.  It does so using the [`Database#execute`](http://www.rubydoc.info/gems/sqlite3/1.3.10/SQLite3/Database#execute-instance_method) method, passing a string of SQL to be run.
 
 Still within irb, to create the `students` table run ...
 
 ```bash
-:002 > StudentDBHelper.setup
+:002 > StudentDBSetup.setup
 ```
 
 Next, to put some data into the table, run ...
 
 ```bash
-:003 > StudentDBHelper.seed
+:003 > StudentDBSetup.seed
 ```
 
 At this point in our database, we should have a `students` table with some records in it. To verify this, from the command line, open up the SQLite3 console with the `students.db` database and make sure you can run `SELECT` on these records.
