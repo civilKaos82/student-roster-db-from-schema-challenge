@@ -90,15 +90,28 @@ We continue by creating the `students` table.  Look at the method `StudentDBSetu
 At this point we should have a `students` table with some records in it. To verify this, exit IRB.  Then, from the command line, open up the SQLite3 console with the `database.db` database and select all the records from the `students` table.  The result should match the values being inserted in the `.seed` method.
 
 
-### Release 0: Create the Student Class
-With the `students` table in the database, now it's time to build our class.  Take a look at the methods that were described in the *Summary*—both the class and instance methods.  We're going to write each of these.
+### Release 0: Creating a Student Class
+Now it's time to build our class. We're going to begin by creating a normal Ruby class.  We want to be able to instantiate new `Student` objects and set the values of their attributes:  first name, last name, gender, birthday, email address, and phone number—notice that these match up with the columns in the `students` table.
+
+```
+$ rspec --example "object attributes"
+```
+*Figure 4*. Running the tests for student attributes.
+
+Tests for these attributes have been written in the example group labeled `"object attributes"`.  Make these tests pass before moving on to the next release (see Figure 4).
+
+
+### Release 1: Persist Students in the Database
+
+
+Take a look at the methods that were described in the *Summary*—both the class and instance methods.  We're going to write each of these.
 
 Tests have been provided that describe the desired behavior of each method—the behaviors mimic what we'll encounter when we work with Active Record.  To complete this challenge, we need to make all the tests pass.
 
 *Note:*  The code for the `Student#save` method should be written first, as the other tests are dependent upon being able to save objects.
 
 
-### Release 1: Use the Student Class
+### Release 2: Use the Student Class
 ```
 $ irb
 :001 > load 'config.rb'
@@ -106,9 +119,9 @@ $ irb
 :003 > Student.all
 :004 >
 ```
-*Figure 4*. Loading and using the `Student` class in IRB.
+*Figure 5*. Loading and using the `Student` class in IRB.
 
-We just built a class that interacts with a database.  Let's use it (see Figure 4).  Use the methods that we just wrote to create new records in the database, retrieve records from the database, and delete records from the database.
+We just built a class that interacts with a database.  Let's use it (see Figure 5).  Use the methods that we just wrote to create new records in the database, retrieve records from the database, and delete records from the database.
 
 
 ## Conclusion
