@@ -178,7 +178,9 @@ $ irb
 ```
 *Figure 9*. Loading and using the `Student` class in IRB.
 
-We just built a class that interacts with a database.  Let's use it (see Figure 9).  Use the methods that we just wrote to create new records in the database, retrieve records from the database, and delete records from the database.
+We just built a class that interacts with a database.  Let's use it (see Figure 9).  Use the methods that we just wrote to create new records in the database, retrieve records from the database, and delete records from the database.  
+
+*Note:* If we want to load a few records into the database, we can use the `StudentDBSetup` module to seed the database with some student data, similar to how we asked it to create the `students` table for us in *Release 0*.
 
 
 ## Conclusion
