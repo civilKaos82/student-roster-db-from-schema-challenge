@@ -36,13 +36,13 @@ describe Student do
 
   describe 'persistence' do
     # Start each test with no data in the students table.
-    # We'll add the specific data we need for each test before running the test.
+    # We'll add any data we need before each specific test.
     before(:each) do
       $db.transaction
       $db.execute('DELETE FROM students')
     end
 
-    # Undo changes to the database after each test.
+    # Undo any changes to the database after each test.
     after(:each) do
       $db.rollback
     end
@@ -54,13 +54,13 @@ describe Student do
       end
 
       it 'has a readable created at time' do
-        student = Student.new('created_at' => '2015-09-29')
-        expect(student.created_at).to eq '2015-09-29'
+        student = Student.new('created_at' => '2015-09-30 16:46:30')
+        expect(student.created_at).to eq '2015-09-30 16:46:30'
       end
 
       it 'has a readable updated at time' do
-        student = Student.new('updated_at' => '2015-09-30')
-        expect(student.updated_at).to eq '2015-09-30'
+        student = Student.new('updated_at' => '2015-09-30 16:46:30')
+        expect(student.updated_at).to eq '2015-09-30 16:46:30'
       end
     end
 
@@ -100,7 +100,7 @@ describe Student do
           end
         end
 
-        describe ".where" do
+        describe '.where' do
           context 'when there are no students matching the specified conditions in the database' do
             it 'returns an empty collection' do
               expect(Student.where('first_name = ?', 'John')).to be_empty
@@ -123,7 +123,7 @@ describe Student do
               )
             end
 
-            it "returns a collection of students matching a given condition" do
+            it 'returns a collection of students matching a given condition' do
               count_of_johns_in_db = $db.get_first_value('SELECT COUNT(*) FROM students WHERE first_name = "John";')
 
               found_johns = Student.where('first_name = ?', 'John')
@@ -137,7 +137,7 @@ describe Student do
           end
         end
 
-        describe ".all_by_birthday" do
+        describe '.all_by_birthday' do
           context 'when there are no students in the database' do
             it 'returns an empty collection' do
               expect(Student.all_by_birthday).to be_empty
@@ -203,8 +203,8 @@ describe Student do
             end
 
 
-            let(:tobin_id) { $db.get_first_value('SELECT id FROM students WHERE first_name = "Tobin";') }
             let(:tobin)    { Student.find(tobin_id) }
+            let(:tobin_id) { $db.get_first_value('SELECT id FROM students WHERE first_name = "Tobin";') }
 
             it 'returns a student object' do
               expect(tobin).to be_an_instance_of Student
@@ -213,13 +213,11 @@ describe Student do
             it 'returns a student with assigned attributes' do
               expect(tobin.id).to eq tobin_id
               expect(tobin.first_name).to eq 'Tobin'
-              expect(tobin.last_name).to eq 'Larue'
-              expect(tobin.birthday).to match /1974-07-04/
             end
           end
         end
 
-        describe ".find_by_first_name" do
+        describe '.find_by_first_name' do
           context 'when no record with the given first name is in the database' do
             it 'returns nil' do
               expect(Student.find_by_first_name 'Sheena').to be_nil
@@ -254,7 +252,7 @@ describe Student do
     end
 
     describe 'removing data from the database' do
-      describe "#delete" do
+      describe '#delete' do
 
         # Add a student record to the database so that we have a record to delete.
         before(:each) do
@@ -268,53 +266,137 @@ describe Student do
           )
         end
 
-        it "removes the database record associated with the student from the database" do
+        it 'removes the database record associated with the student from the database' do
           student_count = $db.get_first_value('SELECT COUNT() FROM students')
-          expect(student_count).to eq 1
 
           student_data = $db.execute('SELECT * FROM students LIMIT 1').first
           student = Student.new(student_data)
           student.delete
 
           updated_student_count = $db.get_first_value('SELECT COUNT() FROM students')
-          expect(updated_student_count).to be_zero
+          expect(updated_student_count).to eq (student_count - 1)
         end
       end
     end
 
-    describe "#save" do
-      context "record not in the database" do
-        let(:unsaved_student) { Student.new(mikee_data) }
+    describe 'writing to the database' do
+      describe '#save' do
 
-        it "saves to the database" do
-          expect { unsaved_student.save }.to change { $db.execute("SELECT * FROM students WHERE first_name = ?", 'Mikee').count }.from(0).to(1)
+        let(:mikee_data) do
+          { 'first_name' => 'Mikee',
+            'last_name'  => 'Pourhadi',
+            'gender'     => 'Male',
+            'birthday'   => '1985-10-25',
+            'email'      => 'mikeepourhadi@gmail.com',
+            'phone'      => '630-363-6640' }
         end
 
-        describe "assigning the id" do
-          it "has no id before being saved" do
-            expect(unsaved_student.id).to be_nil
-          end
+        context 'when the student\'s data is not already in the database' do
+          let(:unsaved_student) { Student.new(mikee_data) }
 
-          it "is assigned an id after save" do
+          it 'adds a record to the database' do
+            student_count = $db.get_first_value('SELECT COUNT() FROM students;')
+
             unsaved_student.save
-            expect(unsaved_student.id).to eq $db.last_insert_row_id
+
+            updated_student_count = $db.get_first_value('SELECT COUNT() FROM students')
+            expect(updated_student_count).to eq (student_count + 1)
+          end
+
+          describe 'assigning the id' do
+            it 'has no id before being saved' do
+              expect(unsaved_student.id).to be_nil
+            end
+
+            it 'is assigned the id generated by the database after save' do
+              unsaved_student.save
+              expect(unsaved_student.id).to eq $db.last_insert_row_id
+            end
+          end
+
+          describe 'assigning the created_at time' do
+            it 'has no created_at before being saved' do
+              expect(unsaved_student.created_at).to be_nil
+            end
+
+            it 'is assigned the created_at time generated by the database after save' do
+              unsaved_student.save
+              created_at_time = $db.get_first_value('SELECT created_at FROM students WHERE id = ? LIMIT 1', $db.last_insert_row_id)
+
+              expect(unsaved_student.created_at).to eq created_at_time
+            end
+
+            it 'is formatted like a SQL timestamp' do
+              unsaved_student.save
+              expect(unsaved_student.created_at).to match /\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}/
+            end
+          end
+
+          describe 'assigning the updated_at time' do
+            it 'has no updated_at before being saved' do
+              expect(unsaved_student.updated_at).to be_nil
+            end
+
+            it 'is assigned the updated_at time generated by the database after save' do
+              unsaved_student.save
+              updated_at_time_in_db = $db.get_first_value('SELECT updated_at FROM students WHERE id = ? LIMIT 1;', $db.last_insert_row_id)
+
+              expect(unsaved_student.updated_at).to eq updated_at_time_in_db
+            end
+
+            it 'is formatted like a SQL timestamp' do
+              unsaved_student.save
+              expect(unsaved_student.updated_at).to match /\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}/
+            end
           end
         end
-      end
 
-      context "record exists in the database" do
-        it "updates the database columns with the attributes of the object" do
-          # Get the id of the mikee Ruby object
-          mikee_original_id = mikee.id
+        context 'when the student\'s data is already in the database' do
 
-          # Change the first_name attribute in the Ruby object
-          mikee.first_name = "Michael"
+          # Add a student record to the database so that we can update it in our tests.
+          before(:each) do
+            $db.execute(
+              <<-SQL_INSERT_STATEMENT
+              INSERT INTO students
+                (first_name, last_name, birthday, created_at, updated_at)
+              VALUES
+                ('Renee','Holland', DATETIME('1974-07-04'), DATETIME('now'), DATETIME('now'));
+              SQL_INSERT_STATEMENT
+            )
 
-          expect { mikee.save }.to change { $db.execute("select * from students where id = ? AND first_name = ?", mikee_original_id, "Michael").count }.from(0).to(1)
-        end
+            # Allow one second to pass to ensure that we aren't
+            # updating during the same second that the record was created.
+            sleep(1)
+          end
 
-        it "does not alter the id" do
-          expect { mikee.save }.to_not change { mikee.id }
+          let(:renee_data) { $db.execute('SELECT * FROM students WHERE first_name = ? AND last_name = ?', 'Renee', 'Holland').first }
+          let(:renee) { Student.new(renee_data) }
+
+          it 'updates the database with new attributes values' do
+            renees_last_name_in_db = $db.get_first_value('SELECT last_name FROM students WHERE id = ?', renee.id)
+            expect(renees_last_name_in_db).to eq 'Holland'
+
+            # Change the last_name attribute in the Ruby object
+            renee.last_name = 'Zeeland'
+            renee.save
+
+            renees_new_last_name_in_db = $db.get_first_value('SELECT last_name FROM students WHERE id = ?', renee.id)
+            expect(renees_new_last_name_in_db).to eq 'Zeeland'
+          end
+
+          describe 'updating the updated_at time' do
+            it 'updates the updated_at time in the database' do
+              renees_updated_at_time_in_db = $db.get_first_value('SELECT updated_at FROM students WHERE id = ?', renee.id)
+              renee.save
+              renees_new_updated_at_time_in_db = $db.get_first_value('SELECT updated_at FROM students WHERE id = ?', renee.id)
+
+              expect(renees_new_updated_at_time_in_db).to_not eq renees_updated_at_time_in_db
+            end
+
+            it 'updates the updated_at time of the Ruby object' do
+              expect { renee.save }.to change { renee.updated_at }
+            end
+          end
         end
       end
     end

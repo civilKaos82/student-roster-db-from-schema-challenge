@@ -129,7 +129,7 @@ In the previous release, we wrote methods that returned collections of students.
 Tests have been provided in the example group labeled `"returning a single student"`.
 
 
-### Release 5:  Remove a Record from the Database
+### Release 5:  Remove a Student from the Database
 ```ruby
 student = Student.find(5)
 # => #<Student:0x007fb72ba034c8 @id=5, ... >
@@ -149,8 +149,23 @@ In Figure 7 we create a `Student` object based on data in `students` table—the
 Tests have been provided in the example group labeled `"removing data from the database"`.
 
 
-### Release 6:  Save Records to the Database
-Here.
+### Release 6:  Save a Student to the Database
+```ruby
+student = Student.new(hash_of_student_data)
+# => #<Student:0x007fb72ba034c8 @id=nil, ... >
+student.id
+# => nil
+student.save
+student.id
+# => 16
+```
+*Figure 8*. Saving a `Student` object's data to the database.
+
+The final behavior that we'll add to our `Student` class is writing data to the database.  If we create a `Student` object in Ruby, we want to be able to save that object's data in the database.  Also, if we update a student's name or birthday, we want to be able to save those changes as well.
+
+We'll need to insert or update data into the database when we save, but we'll also need to update our Ruby objects.  We'll need to handle setting the attributes related to persistence that we dealt with in *Release 2*.
+
+Tests have been provided in the example group labeled `"writing to the database"`.
 
 
 ### Release 7: Use the Student Class
@@ -161,9 +176,9 @@ $ irb
 :003 > Student.all
 :004 >
 ```
-*Figure 8*. Loading and using the `Student` class in IRB.
+*Figure 9*. Loading and using the `Student` class in IRB.
 
-We just built a class that interacts with a database.  Let's use it (see Figure 8).  Use the methods that we just wrote to create new records in the database, retrieve records from the database, and delete records from the database.
+We just built a class that interacts with a database.  Let's use it (see Figure 9).  Use the methods that we just wrote to create new records in the database, retrieve records from the database, and delete records from the database.
 
 
 ## Conclusion
