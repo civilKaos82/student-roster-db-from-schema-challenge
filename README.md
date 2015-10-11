@@ -91,7 +91,7 @@ When we pull a row of data from our `students` table, we'll use it to create a `
 
 However, we don't want to assign these attributes ourselves.  The values of these attributes should be based on the data in the database.  For example, ID's are set by the database automatically when we insert a new record; we don't want to set an ID ourselves.  Similarly, when we insert a new record into our database, we tell the database to use the current time (`DATETIME('now')`) for determining when an object was created and updated.  When we update a record in our database, we'll also tell the database to change the updated at time to reflect the current time.
 
-Let's make sure that we can instantiate `Student` objects with ID's, the times they were created in the database, and the times they were last updated in the database.  Tests for these behaviors have been written in the example group labeled `"attributes related to persistence"`. 
+Let's make sure that we can instantiate `Student` objects with ID's, the times they were created in the database, and the times they were last updated in the database.  Tests for these behaviors have been written in the example group labeled `"attributes related to persistence"`.
 
 
 ### Release 3: Make a Collection of Students from Data in the Database
@@ -109,7 +109,7 @@ In the *Summary*, we mentioned that the `Student` class itself will be responsib
 
 - `.all` returns a collection of all the students in the database.
 - `.where` returns a collection of students from the database that match a given condition.
-- `.all_by_birthday` to returns a collection of all the students in the database sorted by birthday.
+- `.all_by_birthday` returns a collection of all the students in the database sorted by birthday.
 
 Tests have been provided in the example group labeled `"returning multiple students"`.
 
@@ -144,7 +144,7 @@ Student.find(5)
 
 We can create `Student` objects based on data in our database, but we haven't looked at using Ruby to create and delete records.  In this release, we'll give instances of our `Student` class the behavior to remove data from the database.
 
-In Figure 7 we create a `Student` object based on data in `students` table—the row where the ID is five.  We want to remove that data, so we call `#delete` on the `Student` object.  As a result, the data where `id = 5` was removed from the database and we can no longer find a student with an ID of five.
+In Figure 7 we create a `Student` object based on data in the `students` table—the row where the ID is five.  We want to remove that data, so we call `#delete` on the `Student` object.  As a result, the data where `id = 5` was removed from the database and we can no longer find a student with an ID of five.
 
 Tests have been provided in the example group labeled `"removing data from the database"`.
 
@@ -178,7 +178,7 @@ $ irb
 ```
 *Figure 9*. Loading and using the `Student` class in IRB.
 
-We just built a class that interacts with a database.  Let's use it (see Figure 9).  Use the methods that we just wrote to create new records in the database, retrieve records from the database, and delete records from the database.  
+We just built a class that interacts with a database.  Let's use it (see Figure 9).  Use the methods that we just wrote to create new records in the database, retrieve records from the database, and delete records from the database.
 
 *Note:* If we want to load a few records into the database, we can use the `StudentDBSetup` module to seed the database with some student data, similar to how we asked it to create the `students` table for us in *Release 0*.
 
