@@ -15,7 +15,7 @@ We've spent some time working with databases using raw SQL to create tables and 
 | :--- | :--- |
 | `Student.all` | `SELECT * FROM students;` |
 | `Student.find(5)` | `SELECT * FROM students WHERE id = 5;` |
-| `Student.where('first_name = ?', 'bob')` | `SELECT * FROM students WHERE first_name = 'bob';` |
+| `Student.where({ first_name: 'bob' })` | `SELECT * FROM students WHERE first_name = 'bob';` |
 | `new_student_instance.save` | `INSERT INTO students (first_name, ...) VALUES ('Jane', ...);` |
 
 *Table 2.*  Example Ruby methods and comparable SQL queries.
