@@ -103,7 +103,7 @@ describe Student do
         describe '.where' do
           context 'when there are no students matching the specified conditions in the database' do
             it 'returns an empty collection' do
-              expect(Student.where('first_name = ?', 'John')).to be_empty
+              expect(Student.where({ first_name: 'John' })).to be_empty
             end
           end
 
@@ -126,12 +126,12 @@ describe Student do
             it 'returns a collection of students matching a given condition' do
               count_of_johns_in_db = $db.get_first_value('SELECT COUNT(*) FROM students WHERE first_name = "John";')
 
-              found_johns = Student.where('first_name = ?', 'John')
+              found_johns = Student.where({ first_name: 'John' })
               expect(found_johns.count).to eq count_of_johns_in_db
             end
 
             it "returns a collection of student objects" do
-              found_johns = Student.where('first_name = ?', 'John')
+              found_johns = Student.where({ first_name: 'John' })
               expect(found_johns).to all(be_an_instance_of(Student))
             end
           end
