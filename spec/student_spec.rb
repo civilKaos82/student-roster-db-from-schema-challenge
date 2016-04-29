@@ -371,24 +371,25 @@ describe Student do
 
           let(:renee_data) { $db.execute('SELECT * FROM students WHERE first_name = ? AND last_name = ?', 'Renee', 'Holland').first }
           let(:renee) { Student.new(renee_data) }
+          let(:renee_id) { renee.id }
 
           it 'updates the database with new attributes values' do
-            renees_last_name_in_db = $db.get_first_value('SELECT last_name FROM students WHERE id = ?', renee.id)
+            renees_last_name_in_db = $db.get_first_value('SELECT last_name FROM students WHERE id = ?', renee_id)
             expect(renees_last_name_in_db).to eq 'Holland'
 
             # Change the last_name attribute in the Ruby object
             renee.last_name = 'Zeeland'
             renee.save
 
-            renees_new_last_name_in_db = $db.get_first_value('SELECT last_name FROM students WHERE id = ?', renee.id)
+            renees_new_last_name_in_db = $db.get_first_value('SELECT last_name FROM students WHERE id = ?', renee_id)
             expect(renees_new_last_name_in_db).to eq 'Zeeland'
           end
 
           describe 'updating the updated_at time' do
             it 'updates the updated_at time in the database' do
-              renees_updated_at_time_in_db = $db.get_first_value('SELECT updated_at FROM students WHERE id = ?', renee.id)
+              renees_updated_at_time_in_db = $db.get_first_value('SELECT updated_at FROM students WHERE id = ?', renee_id)
               renee.save
-              renees_new_updated_at_time_in_db = $db.get_first_value('SELECT updated_at FROM students WHERE id = ?', renee.id)
+              renees_new_updated_at_time_in_db = $db.get_first_value('SELECT updated_at FROM students WHERE id = ?', renee_id)
 
               expect(renees_new_updated_at_time_in_db).to_not eq renees_updated_at_time_in_db
             end
